@@ -4,21 +4,145 @@
     <title>BINGO</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/estilos.css">
-    <link rel="stylesheet" href="assets/font-awesome.min.css">
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
     <script src="assets/funciones.js" language="javascript" type="text/javascript"></script>
+    <script>
+
+        var contador=0;
+        $(document).ready(function(){
+
+            generador();
+
+        });
+
+        // Función que nos crea un número aleatorio
+        function aleatorio(min, max)
+        {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // comprueba si el número existe en el cartón
+        function existe(numero, carton)
+        {
+            var result = false;
+            for (var f=0; f < carton.length; f++) {
+
+                //
+                if (carton[f].indexOf(numero) > -1) {
+                    result = true;
+                }
+
+            }
+            return result;
+        }
+
+        function renderCarton(carton) {
+            // Generar cartón completo
+            var posFilas = document.getElementsByTagName("tr");
+            for(f=0; f<3; f++)
+            {
+                var posceldas = posFilas[f].getElementsByTagName("td");
+
+                for(c=0;c<9;c++)
+                {
+                    posceldas[c].innerHTML= carton[c][f];
+                }
+            }
+        }
+
+        function generarHuecos()
+        {
+
+        }
+
+        function generador()
+        {
+            var carton = [];
+
+            //Rellenar x filas
+
+            for (c=0; c<9; c++)
+            {
+                carton[c] = [];
+
+                var min = c * 10;
+                var max = min + 9;
+                if (c === 8)
+                {
+                    max++;
+                }
+
+                for(f = 0; f < 3; f++) {
+                    var numero = aleatorio(min, max);
+
+                    while (existe(numero, carton) || numero == 0)
+                    {
+                        numero = aleatorio(min, max)
+                    }
+
+                    carton[c][f] = numero;
+                }
+
+                carton[c].sort();
+            }
+
+           // generarHuecos(carton);
+
+            renderCarton(carton);
+        }
+
+
+    </script>
 </head>
-
-
 <body>
+
+<table class="carton">
+    <tr>
+        <td class="fila"></td>
+        <td class="fila"></td>
+        <td class="fila"></td>
+        <td class="fila"></td>
+        <td class="fila"></td>
+        <td class="fila"></td>
+        <td class="fila"></td>
+        <td class="fila"></td>
+        <td class="fila"></td>
+    </tr>
+    <tr>
+        <td class="fila"></td>
+        <td class="fila"></td>
+        <td class="fila"></td>
+        <td class="fila"></td>
+        <td class="fila"></td>
+        <td class="fila"></td>
+        <td class="fila"></td>
+        <td class="fila"></td>
+        <td class="fila"></td>
+    </tr>
+    <tr>
+        <td class="fila"></td>
+        <td class="fila"></td>
+        <td class="fila"></td>
+        <td class="fila"></td>
+        <td class="fila"></td>
+        <td class="fila"></td>
+        <td class="fila"></td>
+        <td class="fila"></td>
+        <td class="fila"></td>
+    </tr>
+
+
+</table>
+
+<div id="bolas" class="marcador">
+</div>
+<div id="aciertos" class="botonbingo">
+</div>
+
+<table id="comprobador"></table>
 
 
 </body>
-
-
 </html>
